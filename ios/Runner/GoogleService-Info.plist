@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>81258851404-17um11msk9l4hc1pubj6d1ts4j57u40i.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.81258851404-17um11msk9l4hc1pubj6d1ts4j57u40i</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDOL4JRumf6K_qurzqU8kQkkgpinYgzx00</string>
+	<key>GCM_SENDER_ID</key>
+	<string>81258851404</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ivan.dev.openPit</string>
+	<key>PROJECT_ID</key>
+	<string>openpit-project</string>
+	<key>STORAGE_BUCKET</key>
+	<string>openpit-project.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:81258851404:ios:32c8eb2619ef96374818e9</string>
+</dict>
+</plist>

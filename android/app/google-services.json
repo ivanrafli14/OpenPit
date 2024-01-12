@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "81258851404",
+    "project_id": "openpit-project",
+    "storage_bucket": "openpit-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81258851404:android:fb4146dfc8a4abd14818e9",
+        "android_client_info": {
+          "package_name": "ivan.dev.open_pit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81258851404-9tsp9fv4ifp8q7rb7djr5jbuolubli62.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCM87LP7jV7gzWA2ybwMvHdDPZDGV2mA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81258851404-9tsp9fv4ifp8q7rb7djr5jbuolubli62.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "81258851404-17um11msk9l4hc1pubj6d1ts4j57u40i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ivan.dev.openPit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
