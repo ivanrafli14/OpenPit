@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:open_pit/app/routes/app_pages.dart';
+
 
 import '../controllers/pickup_controller.dart';
 
@@ -15,6 +17,9 @@ class PickupView extends GetView<PickupController> {
   final LatLng _center = const LatLng(45.521563, -122.677433);
 
   Set<Marker> _markers = Set<Marker>();
+  
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,7 @@ class PickupView extends GetView<PickupController> {
                     markerId: MarkerId('user_location'),
                     position: LatLng(controller.currentTemp.value!.latitude,
                         controller.currentTemp.value!.longitude),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(120),
+                    icon: controller.markerbitmap,
                   )
                 },
                 onMapCreated: controller.onCreated,
@@ -115,7 +120,7 @@ class PickupView extends GetView<PickupController> {
                         child: Container(
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                              color: Color(0xff1ABC54),
+                              color: Color(0xff1A2ABC),
                               borderRadius: BorderRadius.circular(20)),
                           child: Center(
                             child: Text(

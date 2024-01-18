@@ -1,12 +1,16 @@
 import 'package:get/get.dart';
+import 'package:open_pit/app/controllers/firebase_auth_controller.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
 
-  final count = 0.obs;
+  FirebaseAuthController fireAuthC = Get.find<FirebaseAuthController>();
+  final isLogin = false.obs;
+
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
+    isLogin.value = await fireAuthC.isUserLogged();
   }
 
   @override
@@ -18,6 +22,4 @@ class HomeController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

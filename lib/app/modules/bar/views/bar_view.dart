@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:open_pit/app/modules/home/controllers/home_controller.dart';
 import 'package:open_pit/app/modules/home/views/home_view.dart';
 import 'package:open_pit/app/modules/order/views/order_view.dart';
 import 'package:open_pit/app/modules/payment/views/payment_view.dart';
@@ -11,8 +12,11 @@ import '../controllers/bar_controller.dart';
 
 class BarView extends GetView<BarController> {
   BarView({Key? key}) : super(key: key);
+  
   @override
+
   Widget build(BuildContext context) {
+  Get.put(HomeController());
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: buildBottomNavigationMenu(context),
@@ -50,7 +54,7 @@ class BarView extends GetView<BarController> {
             currentIndex: controller.tabIndex.value,
             backgroundColor: Colors.white,
             unselectedItemColor: Color(0xff747474),
-            selectedItemColor: Color(0xff1ABC54),
+            selectedItemColor: Color(0xff1A2ABC),
             unselectedLabelStyle: unselectedLabelStyle,
             selectedLabelStyle: selectedLabelStyle,
             items: [
@@ -68,17 +72,17 @@ class BarView extends GetView<BarController> {
               BottomNavigationBarItem(
                 icon: Container(
                   margin: EdgeInsets.only(bottom: 4),
-                  child: Icon(Icons.approval, size: 20.0),
+                  child: Icon(Icons.assignment, size: 20.0),
                 ),
-                label: 'Orders',
+                label: 'Plans',
                 backgroundColor: Colors.white,
               ),
               BottomNavigationBarItem(
                 icon: Container(
                   margin: EdgeInsets.only(bottom: 4),
-                  child: Icon(Icons.wallet, size: 20.0),
+                  child: Icon(Icons.chat, size: 20.0),
                 ),
-                label: 'Payment',
+                label: 'Social',
                 backgroundColor: Colors.white,
               ),
               BottomNavigationBarItem(

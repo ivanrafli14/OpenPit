@@ -104,64 +104,78 @@ class SummaryView extends GetView<SummaryController> {
             SizedBox(
               height: 10,
             ),
-            ListTile(
-              title: Text('Basic Plan',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
-              subtitle: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('IDR. 100000 X 2 Person'),
-                    SizedBox(
-                      height: 3,
-                    ),
-                    Text('IDR. 200000')
-                  ]),
-              trailing: Image.asset('images/Group 11.png'),
-            ),
-            ListTile(
-              title: Text('Happy Meal',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
-              subtitle: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('IDR. 100000 X 2 Person'),
-                    SizedBox(
-                      height: 3,
-                    ),
-                    Text('IDR. 200000')
-                  ]),
-              trailing: Image.asset('images/Group 11.png'),
-            ),
+            Obx(() {
+              List<Widget> widgets = [];
+
+              if (controller.detailC.basic != 0) {
+                widgets.add(ListTile(
+                  title: Text('Basic Plan',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                  subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('IDR. ${controller.pathC.price} x ${controller.detailC.basic} person'),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Text('IDR. ${controller.pathC.total.value}')
+                      ]),
+                  trailing: Image.asset('images/Component 15.png'),
+                ));
+              }
+
+              if (controller.detailC.enjoy != 0) {
+                widgets.add(ListTile(
+                  title: Text('Enjoy Plan',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                  subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('IDR. ${controller.pathC.price} x ${controller.detailC.enjoy} person'),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Text('IDR. ${controller.pathC.total.value}')
+                      ]),
+                  trailing: Image.asset('images/Group 1.png'),
+                ));
+              }
+
+              if (controller.detailC.happy_meal != 0) {
+                widgets.add(ListTile(
+                  title: Text('Happy Meal',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                  subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('IDR. 50000 X ${controller.detailC.happy_meal.value} Person'),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Text('IDR. ${controller.happyMealPrice}')
+                      ]),
+                  trailing: Image.asset('images/Group 2.png'),
+                ));
+              }
+
+              
+
+              return Column(
+                children: widgets,
+              );
+            }),
             Padding(
               padding: const EdgeInsets.all(14.0),
-              child: Text('Total IDR. 400.000',
+              child: Text('Total IDR. ${controller.totalOrders}',
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
             ),
-            Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                      8.0), // Set your desired border radius
-                  color: Color(0xffD9D9D9), // Set your desired background color
-                ),
-                margin: EdgeInsets.all(4.0), // Set margin as needed
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Choose Payment',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700)),
-                      Text('Change',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xff1ABC54))),
-                    ],
-                  ),
-                )),
+            
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -172,13 +186,16 @@ class SummaryView extends GetView<SummaryController> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff1ABC54),
+                      backgroundColor: Color(0xff1A2ABC),
                     ),
-                    onPressed: () {
-                      Get.toNamed(Routes.HOME);
+                    onPressed: () async {
+                      String snapToken = await controller.getSnapToken(controller.totalOrders);
+                      controller.midtrans?.startPaymentUiFlow(
+                        token: snapToken,
+                      );
                     },
                     child: const Text(
-                      'Confirm Book ',
+                      'Choose Payment',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

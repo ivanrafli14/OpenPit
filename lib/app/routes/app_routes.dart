@@ -15,6 +15,9 @@ abstract class Routes {
   static const SEARCH_PLACE = _Paths.SEARCH_PLACE;
   static const PATH_CONCERT = _Paths.PATH_CONCERT;
   static const SUMMARY = _Paths.SUMMARY;
+  static const TRACKING = _Paths.TRACKING;
+  static const DETAIL = _Paths.DETAIL;
+  static const CHAT = _Paths.CHAT;
 }
 
 abstract class _Paths {
@@ -31,4 +34,7 @@ abstract class _Paths {
   static const SEARCH_PLACE = '/search-place';
   static const PATH_CONCERT = '/path-concert';
   static const SUMMARY = '/summary';
+  static const TRACKING = '/tracking';
+  static const DETAIL = '/detail';
+  static const CHAT = '/chat';
 }

@@ -44,7 +44,7 @@ class PathConcertView extends GetView<PathConcertController> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 2.5,
+                height: MediaQuery.of(context).size.height / 2.3,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -65,7 +65,7 @@ class PathConcertView extends GetView<PathConcertController> {
                             child: Obx(() => Text(
                                   "${controller.distance.value} to Venue",
                                   style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w800),
                                 )),
                           ),
@@ -97,17 +97,38 @@ class PathConcertView extends GetView<PathConcertController> {
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 10,
-                              color: Color(0xff1ABC54))),
+                              color: Color(0xff1A2ABC))),
+                      Divider(
+                        color: Colors.black,
+                      ),
                       ListTile(
-                        title: Text('Basic Plan'),
+                        title: Obx(() => Text('${controller.detailC.basic.value != 0 ? 'Basic Plan' : 'Enjoy Plan'}',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 15))),
                         subtitle: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('IDR. 100000 X 2 Person'),
-                              Text('IDR. 200000')
+                              Obx(() {
+                                if (controller.price.value == 0) {
+                                  return Text('Calculating...');
+                                }
+
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        'IDR ${controller.price.value} X ${controller.detailC.basic.value == 0 ? controller.detailC.enjoy.value : controller.detailC.basic.value} Person'),
+                                    Text('IDR ${controller.total.value}'),
+                                  ],
+                                );
+                              }),
                             ]),
-                        trailing: Image.asset('images/Group 11.png'),
+                        trailing: Image.asset(controller.detailC.basic !=0 ? 'images/Component 15.png' : 'images/Group 1.png'),
+                      ),
+                      Divider(
+                        color: Colors.black,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -116,7 +137,7 @@ class PathConcertView extends GetView<PathConcertController> {
                         child: Container(
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                              color: Color(0xff1ABC54),
+                              color: Color(0xff1A2ABC),
                               borderRadius: BorderRadius.circular(20)),
                           child: Center(
                             child: Text(

@@ -35,133 +35,149 @@ class LoginView extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'images/logoopenpit 2.png',
-                  width: 200,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: TextField(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                height: 269,
+                color: Color(0xff1A2ABC),
+                child: Column(children: [
+                  SizedBox(
+                    height: 2,
+                  ),
+                  Text('Login',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                          color: Color(0xffF7F7F7))),
+                  SizedBox(height: 70),
+                  Image.asset(
+                    'images/openpitlogo 11.png',
+                  )
+                ]),
+              ),
+
+              SizedBox(
+                height: 33,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 35, right: 35, top: 4, bottom: 4),
+                child: Column(children: [
+                  TextField(
                     controller: controller.emailController,
                     obscureText: false,
                     decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black)),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.black),
                         ),
                         hintText: "Email"),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: TextField(
+
+                  SizedBox(height: 20,),
+
+                  TextField(
                     controller: controller.passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black)),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.black),
                         ),
                         hintText: "Password"),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-
-                GestureDetector(
-                  onTap: Login,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Color(0xff1ABC54),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Center(
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                  SizedBox(height: 16,),
+                  GestureDetector(
+                    onTap: Login,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Color(0xff1A2ABC),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Center(
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-
-                SizedBox(
-                  height: 20,
-                ),
-
-                GestureDetector(
-                  onTap: LoginWithGoogle,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Center(
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'images/logoGoogle.png',
-                            width: 30,
-                          ),
-                          SizedBox(
-                            width: 60,
-                          ),
-                          Text(
-                            'Continue With Google',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: LoginWithGoogle,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Center(
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'images/logoGoogle.png',
+                              width: 30,
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              width: 60,
+                            ),
+                            Text(
+                              'Continue With Google',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Dont have an Account? '),
-                    GestureDetector(
-                      onTap: () {
-                        // Add your registration logic or navigation code here
-                        Get.toNamed(Routes.REGISTER);
-                      },
-                      child: Text(
-                        'Register now',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Color(0xff1ABC54),
-                            fontWeight: FontWeight.w700),
-                      ),
+                ]),
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
+
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Dont have an Account? '),
+                  GestureDetector(
+                    onTap: () {
+                      // Add your registration logic or navigation code here
+                      Get.toNamed(Routes.REGISTER);
+                    },
+                    child: Text(
+                      'Register now',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xff1A2ABC),
+                          fontWeight: FontWeight.w700),
                     ),
-                  ],
-                )
-                // Expanded(
-                //   child: authProvider.status == Status.authenticating ? LoadingView() : SizedBox.shrink()
-                // )
-              ],
-            ),
+                  ),
+                ],
+              )
+              // Expanded(
+              //   child: authProvider.status == Status.authenticating ? LoadingView() : SizedBox.shrink()
+              // )
+            ],
           ),
         ),
       ),

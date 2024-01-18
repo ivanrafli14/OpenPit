@@ -7,6 +7,7 @@ class FirebaseAuthController extends GetxController {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  User? user;
 
   Future<Map<String, dynamic>> signInWithEmailandPassword(
       String email, String password) async {
@@ -139,7 +140,7 @@ class FirebaseAuthController extends GetxController {
   // }
 
   Future<bool> isUserLogged() async {
-    final User? user = await _firebaseAuth.authStateChanges().first;
+     user = await _firebaseAuth.authStateChanges().first;
 
     return user != null;
   }

@@ -4,6 +4,10 @@ import '../modules/Pickup/bindings/pickup_binding.dart';
 import '../modules/Pickup/views/pickup_view.dart';
 import '../modules/bar/bindings/bar_binding.dart';
 import '../modules/bar/views/bar_view.dart';
+import '../modules/chat/bindings/chat_binding.dart';
+import '../modules/chat/views/chat_view.dart';
+import '../modules/detail/bindings/detail_binding.dart';
+import '../modules/detail/views/detail_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -24,6 +28,8 @@ import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
 import '../modules/summary/bindings/summary_binding.dart';
 import '../modules/summary/views/summary_view.dart';
+import '../modules/tracking/bindings/tracking_binding.dart';
+import '../modules/tracking/views/tracking_view.dart';
 
 part 'app_routes.dart';
 
@@ -45,7 +51,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ORDER,
-      page: () => const OrderView(),
+      page: () => OrderView(),
       binding: OrderBinding(),
     ),
     GetPage(
@@ -90,8 +96,23 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SUMMARY,
-      page: () =>  SummaryView(),
+      page: () => SummaryView(),
       binding: SummaryBinding(),
+    ),
+    GetPage(
+      name: _Paths.TRACKING,
+      page: () => const TrackingView(),
+      binding: TrackingBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL,
+      page: () => const DetailView(),
+      binding: DetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHAT,
+      page: () => const ChatView(),
+      binding: ChatBinding(),
     ),
   ];
 }

@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,18 +10,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import 'package:open_pit/app/modules/Pickup/controllers/pickup_controller.dart';
+import 'package:open_pit/app/modules/detail/controllers/detail_controller.dart';
 
 class PathConcertController extends GetxController {
   //TODO: Implement PathConcertController
   int cnt = 0;
   final count = 0.obs;
-  final String key = 'AIzaSyD70kaxV0TaMWeKNwxAdSQNO8fvdsZF6YU';
+  final key = dotenv.env['GOOGLE_MAPS_API'];
   final Completer<GoogleMapController> _controller = Completer();
   RxSet<Marker> markers = <Marker>{}.obs;
   RxSet<Polyline> polyline = <Polyline>{}.obs;
   Rx<String> distance = RxString("");
+  Rx<int> price = 0.obs;
+  Rx<int> total = 0.obs;
 
   PickupController pickupC = Get.find<PickupController>();
+  DetailController detailC = Get.find<DetailController>();
 
   void onCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -46,7 +52,13 @@ class PathConcertController extends GetxController {
     _setMarker(
         LatLng(results['end_location']['lat'], results['end_location']['lng']));
     distance.value = results['distance'];
-    debugPrint("inires" + results['distance'].toString());
+
+    double distanceDouble =
+        double.parse(distance.value.replaceAll(RegExp(r'[^0-9.]'), ''));
+    int temp = distanceDouble.toInt();
+    price.value = temp * 5000;
+    int maxit = max(detailC.basic.value, detailC.enjoy.value);
+    total.value = price.value * maxit;
 
     return results;
   }
@@ -60,16 +72,11 @@ class PathConcertController extends GetxController {
         directions['bounds_ne'],
         directions['bounds_sw']);
 
-    debugPrint('Halo' + directions.toString());
-
     _setPolyline(directions['polyline_decode']);
   }
 
   Future<void> _goToThePlace(double lat, double lng,
       Map<String, dynamic> boundsNe, Map<String, dynamic> boundsSw) async {
-    // final double lat = place['geometry']['location']['lat'];
-    // final double lng = place['geometry']['location']['lng'];
-
     final GoogleMapController controller = await _controller.future;
     await controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(lat, lng), zoom: 12)));
@@ -107,7 +114,7 @@ class PathConcertController extends GetxController {
       markerId: MarkerId('user_location'),
       position: LatLng(pickupC.currentTemp.value!.latitude,
           pickupC.currentTemp.value!.longitude),
-      icon: BitmapDescriptor.defaultMarkerWithHue(120),
+      icon: pickupC.markerbitmap,
     );
 
     markers.add(userMarker);

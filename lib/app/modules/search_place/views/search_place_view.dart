@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:get/get.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
@@ -36,7 +37,7 @@ class SearchPlaceView extends GetView<SearchPlaceController> {
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: GooglePlaceAutoCompleteTextField(
         textEditingController: controller.queryC,
-        googleAPIKey: 'AIzaSyD70kaxV0TaMWeKNwxAdSQNO8fvdsZF6YU',
+        googleAPIKey: dotenv.env['GOOGLE_MAPS_API']!,
         inputDecoration: InputDecoration(
           hintText: "Search your location",
           border: InputBorder.none,

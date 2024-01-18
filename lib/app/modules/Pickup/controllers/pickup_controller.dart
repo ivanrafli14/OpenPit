@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:typed_data';
 
-import 'package:geocoding/geocoding.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:open_pit/app/models/coordinate.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:image/image.dart' as IMG;
 
 class PickupController extends GetxController {
   //TODO: Implement PickupController
@@ -16,9 +19,25 @@ class PickupController extends GetxController {
   Rx<String?> currentAddress = Rx<String?>(null);
   final Completer<GoogleMapController> _controller = Completer();
   RxSet<Marker> markers = RxSet<Marker>();
+  late BitmapDescriptor markerbitmap;
 
   void onCreated(GoogleMapController controller) {
     _controller.complete(controller);
+  }
+
+  Uint8List? resizeImage(Uint8List data, width, height) {
+    Uint8List? resizedData = data;
+    IMG.Image? img = IMG.decodeImage(data);
+    IMG.Image resized = IMG.copyResize(img!, width: width, height: height);
+    resizedData = Uint8List.fromList(IMG.encodePng(resized));
+    return resizedData;
+  }
+
+  Future<void> addMarkerLogo() async {
+    markerbitmap = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(),
+      "images/map_icon.png",
+    );
   }
 
   Future<void> getCurrentLocation() async {
@@ -42,21 +61,12 @@ class PickupController extends GetxController {
     currentAddress.value =
         await getAddressFromLatLng(position.latitude, position.longitude);
 
-    // Marker userMarker = Marker(
-    //   markerId: MarkerId('user_location'),
-    //   position:
-    //       LatLng(currentTemp.value!.latitude, currentTemp.value!.longitude),
-    //   icon: BitmapDescriptor.defaultMarkerWithHue(120),
-    // );
-    // //markers.clear();
-    // markers.add(userMarker);
-
-     await _goToTheNewPosition(position.latitude, position.longitude);
+    await _goToTheNewPosition(position.latitude, position.longitude);
   }
 
   Future<String?> getAddressFromLatLng(
       double latitude, double longitude) async {
-    final apiKey = 'AIzaSyD70kaxV0TaMWeKNwxAdSQNO8fvdsZF6YU';
+    final apiKey = dotenv.env['GOOGLE_MAPS_API'];
     final url =
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
 
@@ -76,18 +86,9 @@ class PickupController extends GetxController {
     return null;
   }
 
-  void _initLocationStream() {
-    Geolocator.getPositionStream().listen((Position position) {
-      currentLocation.value = position;
-    });
-  }
-
   Future<void> _goToTheNewPosition(double lat, double lng) async {
-
     markers.clear();
 
-    // final double lat = place['geometry']['location']['lat'];
-    // final double lng = place['geometry']['location']['lng'];
     if (currentTemp.value != null) {
       Marker userMarker = Marker(
         markerId: MarkerId('user_location'),
@@ -96,7 +97,6 @@ class PickupController extends GetxController {
         icon: BitmapDescriptor.defaultMarkerWithHue(120),
       );
 
-      
       markers.add(userMarker);
     }
 
@@ -106,13 +106,6 @@ class PickupController extends GetxController {
             target: LatLng(
                 currentTemp.value!.latitude, currentTemp.value!.longitude),
             zoom: 12)));
-
-    // final LatLng _userPosition = LatLng(
-    //   currentTemp.value!.latitude,
-    //   currentTemp.value!.longitude,
-    // );
-
-
   }
 
   void updateCoordinate(double lat, double long, String description) {
@@ -120,13 +113,6 @@ class PickupController extends GetxController {
     currentAddress.value = description;
 
     _goToTheNewPosition(lat, long);
-
-    // Marker userMarker = Marker(
-    //   markerId: MarkerId('user_location'),
-    //   position: LatLng(lat, long),
-    //   icon: BitmapDescriptor.defaultMarkerWithHue(120),
-    // );
-    // markers.add(userMarker);
   }
 
   Future<void> getPlace(String placeId) async {
@@ -143,37 +129,12 @@ class PickupController extends GetxController {
     String addressFormat = result['formatted_address'];
 
     updateCoordinate(latPlace, lngPlace, addressFormat);
-    //_goToTheNewPosition(latPlace, lngPlace);
-
-    print(result);
-    print(latPlace);
-
-    //return result;
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-
-
-    // Marker userMarker = Marker(
-    //   markerId: MarkerId('user_location'),
-    //   position:
-    //       LatLng(currentTemp.value!.latitude, currentTemp.value!.longitude),
-    //   icon: BitmapDescriptor.defaultMarkerWithHue(120),
-    // );
-
-    // markers.add(userMarker);
-    // _goToTheNewPosition(
-    //     currentTemp.value!.latitude, currentTemp.value!.longitude);
-    // if (currentTemp.value == Null) {
-    //   await getCurrentLocation();
-    // }
-
-    //  _goToTheNewPosition(
-    //     currentTemp.value!.latitude, currentTemp.value!.longitude);
-    // await _getCurrentLocation();
-    // _initLocationStream();
+    await addMarkerLogo();
   }
 
   @override

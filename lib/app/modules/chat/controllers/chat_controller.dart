@@ -1,15 +1,9 @@
 import 'package:get/get.dart';
 
-class BarController extends GetxController {
-  //TODO: Implement BarController
+class ChatController extends GetxController {
+  //TODO: Implement ChatController
 
-  var tabIndex = 0.obs;
-
-
-  void changeIndex(int index) {
-    tabIndex.value = index;
-  }
-
+  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -25,4 +19,5 @@ class BarController extends GetxController {
     super.onClose();
   }
 
+  void increment() => count.value++;
 }

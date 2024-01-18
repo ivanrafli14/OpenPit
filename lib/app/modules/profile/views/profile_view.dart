@@ -29,48 +29,70 @@ class ProfileView extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder<User?>(
-        future: getCurrentUser(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else if (snapshot.hasData && snapshot.data != null) {
-            // User is authenticated
-            User user = snapshot.data!;
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      appBar: AppBar(title: Text('My Profile'),),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+       
+
+        ListTile(
+          leading: Icon(Icons.account_circle, size: 50,),
+          title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Welcome, ${user.displayName}!'),
-                ElevatedButton(
-                  onPressed: () {
-                    Logout();
-                    // Navigate to the login screen or perform login logic
-                  },
-                  child: Text('Logout'),
-                ),
-                // Add other content for authenticated users
-              ],
-            );
-          } else {
-            // User is not authenticated
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('You are not logged in.'),
-                ElevatedButton(
-                  onPressed: () {
-                    // Navigate to the login screen or perform login logic
-                  },
-                  child: Text('Login'),
-                ),
-              ],
-            );
-          }
-        },
-      ),
+                Text('${authC.user!.displayName}'),
+                Icon(Icons.edit)
+              ]),
+          subtitle: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [Text('${authC.user!.email}'), Text('+624820039535')]),
+        ),
+
+         SizedBox(height: 15,),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text('Account'),
+        ),
+        ListTile(
+          leading: Icon(Icons.language),
+          title: Text('Change language'),
+          trailing: Icon(Icons.arrow_forward),
+        ),
+        ListTile(
+          leading: Icon(Icons.password),
+          title: Text('Change password'),
+          trailing: Icon(Icons.arrow_forward),
+        ),
+        ListTile(
+          leading: Icon(Icons.notifications_active),
+          title: Text('Notification'),
+          trailing: Icon(Icons.arrow_forward),
+        ),
+        ListTile(
+          leading: Icon(Icons.people_alt),
+          title: Text('Invite friends'),
+          trailing: Icon(Icons.arrow_forward),
+        ),
+        ListTile(
+          leading: Icon(Icons.payment_rounded),
+          title: Text('Payment methods'),
+          trailing: Icon(Icons.arrow_forward),
+        ),
+        ListTile(
+          leading: Icon(Icons.help),
+          title: Text('Help'),
+          trailing: Icon(Icons.arrow_forward),
+        ),
+        ListTile(
+          leading: Icon(Icons.logout),
+          title: Text('Logout'),
+          trailing: Icon(Icons.arrow_forward),
+        ),
+      ]),
     );
   }
 }

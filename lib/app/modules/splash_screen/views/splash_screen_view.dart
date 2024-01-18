@@ -7,24 +7,32 @@ import '../controllers/splash_screen_controller.dart';
 
 class SplashScreenView extends GetView<SplashScreenController> {
   const SplashScreenView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 5), (() {
-      Get.offAllNamed(Routes.LOGIN);
+      controller.redirect();
     }));
+
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('images/logoopenpit 2.png'),
-            SizedBox(height: 12),
-            Text(
-              'OpenPit',
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 28),
-            )
-          ],
+      body: Container(
+        color: Color(0xff1A2ABC),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset('images/openpitlogo-fix.png'),
+              SizedBox(height: 12),
+              Text(
+                'OpenPit',
+                style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 28,
+                    color: Color(0xffF7F7F7)),
+              )
+            ],
+          ),
         ),
       ),
     );
