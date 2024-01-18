@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:image/image.dart' as IMG;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +11,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:open_pit/app/services/geolocation_service.dart';
+import 'package:open_pit/app/services/location_service.dart';
+
 
 import '../controllers/tracking_controller.dart';
 
@@ -29,7 +32,9 @@ class MapSampleState extends State<TrackingView> {
   Set<Polyline> _polyline = Set<Polyline>();
   double latuser = -6.200000;
   double lnguser = 106.816666;
+  int cnt_poly = 1;
   late BitmapDescriptor markerbitmap;
+  //late BitmapDescriptor markerbitmapbus;
 
   GeolocationService _geolocationService = GeolocationService();
 
@@ -57,6 +62,17 @@ class MapSampleState extends State<TrackingView> {
     });
   }
 
+  Future<List<Map<String, dynamic>>> getDocuments() async {
+    DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+        await FirebaseFirestore.instance
+            .collection('drivers')
+            .doc('6D9tr4J2scPN7pmieguV6ZucRFk2')
+            .get();
+
+    Map<String, dynamic> data = documentSnapshot.data() ?? {};
+    return [data];
+  }
+
   Uint8List? resizeImage(Uint8List data, width, height) {
     Uint8List? resizedData = data;
     IMG.Image? img = IMG.decodeImage(data);
@@ -65,23 +81,18 @@ class MapSampleState extends State<TrackingView> {
     return resizedData;
   }
 
-  void addMarkerLogo() async {
+  Future<void> addMarkerLogo() async {
+    try {
     markerbitmap = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(),
       "images/map_icon.png",
     );
+
+  } catch (error) {
+    print('Error loading marker images: $error');
+    // Handle the error or throw an exception if needed
   }
-
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
-  static const CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+  }
 
   Future<void> _getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -90,6 +101,18 @@ class MapSampleState extends State<TrackingView> {
     setState(() {
       _currentPosition = position;
     });
+  }
+
+  Future<void> initRoute(latuser, lnguser, latdriver, lngdriver) async {
+    var directions = await LocationService()
+        .getDirections(latuser, lnguser, latdriver, lngdriver);
+
+    _goToThePlace(
+        directions['start_location']['lat'],
+        directions['start_location']['lng'],
+        directions['bounds_ne'],
+        directions['bounds_sw']);
+    _setPolyline(directions['polyline_decode']);
   }
 
   void _initLocationStream() {
@@ -111,7 +134,7 @@ class MapSampleState extends State<TrackingView> {
 
       final GoogleMapController controller = await _controller.future;
       await controller.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(target: poslatlang, zoom: 12)));
+          CameraPosition(target: poslatlang, zoom: 10)));
     } catch (e) {
       // Handle errors here
       print(e.toString());
@@ -124,7 +147,18 @@ class MapSampleState extends State<TrackingView> {
     });
   }
 
-  Future<List<Map<String, dynamic>>> getDocuments() async {
+  void _setPolyline(List<PointLatLng> points) {
+    print(points);
+    final String polylineId = 'polyline_$cnt_poly';
+    cnt_poly++;
+    _polyline.add(Polyline(
+        polylineId: PolylineId(polylineId),
+        width: 2,
+        color: Colors.blue,
+        points: points.map((e) => LatLng(e.latitude, e.longitude)).toList()));
+  }
+
+  Future<List<Map<String, dynamic>>> getDocumentsFirst() async {
     DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
         await FirebaseFirestore.instance
             .collection('drivers')
@@ -138,10 +172,24 @@ class MapSampleState extends State<TrackingView> {
   @override
   void initState() {
     super.initState();
-    addMarkerLogo();
+    // addMarkerLogo();
+    // _positionStreamController = StreamController<Position>();
+    // _getCurrentLocation();
+    // _initLocationStream();
+
+    _initializeState();
+  }
+
+  Future<void> _initializeState() async {
+     await addMarkerLogo();
     _positionStreamController = StreamController<Position>();
-    _getCurrentLocation();
+    await _getCurrentLocation();
     _initLocationStream();
+
+    var data = await getDocumentsFirst();
+
+    await initRoute(_currentPosition.latitude, _currentPosition.longitude,
+        data.first['lat'], data.first['lng']);
   }
 
   @override
@@ -166,7 +214,8 @@ class MapSampleState extends State<TrackingView> {
           Marker driverMarker = Marker(
             markerId: MarkerId('driver_location'),
             position: LatLng(position.first['lat'], position.first['lng']),
-            icon: BitmapDescriptor.defaultMarkerWithHue(20),
+            icon: BitmapDescriptor.defaultMarkerWithHue(200),
+          
           );
           _markers.add(driverMarker);
 
@@ -174,9 +223,10 @@ class MapSampleState extends State<TrackingView> {
             mapType: MapType.normal,
             markers: _markers,
             polylines: _polyline,
+            zoomGesturesEnabled: true,
             initialCameraPosition: CameraPosition(
               target: LatLng(position.first['lat'], position.first['lng']),
-              zoom: 20.0,
+              zoom: 10.0,
             ),
             //markers: Set<Marker>.from([userMarker]),
             onMapCreated: (GoogleMapController controller) {
@@ -189,8 +239,22 @@ class MapSampleState extends State<TrackingView> {
     ));
   }
 
-  Future<void> _goToTheLake() async {
+  Future<void> _goToThePlace(double lat, double lng,
+      Map<String, dynamic> boundsNe, Map<String, dynamic> boundsSw) async {
+    // final double lat = place['geometry']['location']['lat'];
+    // final double lng = place['geometry']['location']['lng'];
+
     final GoogleMapController controller = await _controller.future;
-    await controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+    await controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 10)));
+
+    await controller.animateCamera(CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
+          northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
+        ),
+        25));
+
+    _setMarker(LatLng(lat, lng));
   }
 }
