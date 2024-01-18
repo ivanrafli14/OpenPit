@@ -55,8 +55,16 @@ class PathConcertController extends GetxController {
 
     double distanceDouble =
         double.parse(distance.value.replaceAll(RegExp(r'[^0-9.]'), ''));
-    int temp = distanceDouble.toInt();
-    price.value = temp * 5000;
+
+    if (distanceDouble >= 10) {
+      distanceDouble -= 10;
+      price.value += 75000;
+      int temp = distanceDouble.toInt();
+      price.value = temp * 5000;
+    } else {
+      price.value = 75000;
+    }
+
     int maxit = max(detailC.basic.value, detailC.enjoy.value);
     total.value = price.value * maxit;
 

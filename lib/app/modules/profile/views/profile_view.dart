@@ -30,69 +30,79 @@ class ProfileView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('My Profile'),),
+      appBar: AppBar(
+        title: Text('My Profile'),
+      ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-       
-
-        ListTile(
-          leading: Icon(Icons.account_circle, size: 50,),
-          title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('${authC.user!.displayName}'),
-                Icon(Icons.edit)
-              ]),
-          subtitle: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text('${authC.user!.email}'), Text('+624820039535')]),
-        ),
-
-         SizedBox(height: 15,),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text('Account'),
-        ),
-        ListTile(
-          leading: Icon(Icons.language),
-          title: Text('Change language'),
-          trailing: Icon(Icons.arrow_forward),
-        ),
-        ListTile(
-          leading: Icon(Icons.password),
-          title: Text('Change password'),
-          trailing: Icon(Icons.arrow_forward),
-        ),
-        ListTile(
-          leading: Icon(Icons.notifications_active),
-          title: Text('Notification'),
-          trailing: Icon(Icons.arrow_forward),
-        ),
-        ListTile(
-          leading: Icon(Icons.people_alt),
-          title: Text('Invite friends'),
-          trailing: Icon(Icons.arrow_forward),
-        ),
-        ListTile(
-          leading: Icon(Icons.payment_rounded),
-          title: Text('Payment methods'),
-          trailing: Icon(Icons.arrow_forward),
-        ),
-        ListTile(
-          leading: Icon(Icons.help),
-          title: Text('Help'),
-          trailing: Icon(Icons.arrow_forward),
-        ),
-        ListTile(
-          leading: Icon(Icons.logout),
-          title: Text('Logout'),
-          trailing: Icon(Icons.arrow_forward),
-        ),
-      ]),
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              leading: Icon(
+                Icons.account_circle,
+                size: 50,
+              ),
+              title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('${authC.user!.displayName}'),
+                    Icon(Icons.edit)
+                  ]),
+              subtitle: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('${authC.user!.email}'),
+                    Text('+624820039535')
+                  ]),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text('Account'),
+            ),
+            ListTile(
+              leading: Icon(Icons.language),
+              title: Text('Change language'),
+              trailing: Icon(Icons.arrow_forward),
+            ),
+            ListTile(
+              leading: Icon(Icons.password),
+              title: Text('Change password'),
+              trailing: Icon(Icons.arrow_forward),
+            ),
+            ListTile(
+              leading: Icon(Icons.notifications_active),
+              title: Text('Notification'),
+              trailing: Icon(Icons.arrow_forward),
+            ),
+            ListTile(
+              leading: Icon(Icons.people_alt),
+              title: Text('Invite friends'),
+              trailing: Icon(Icons.arrow_forward),
+            ),
+            ListTile(
+              leading: Icon(Icons.payment_rounded),
+              title: Text('Payment methods'),
+              trailing: Icon(Icons.arrow_forward),
+            ),
+            ListTile(
+              leading: Icon(Icons.help),
+              title: Text('Help'),
+              trailing: Icon(Icons.arrow_forward),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                authC.signOut();
+                Get.offAndToNamed(Routes.LOGIN);
+              },
+            ),
+          ]),
     );
   }
 }

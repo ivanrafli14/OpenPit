@@ -3,6 +3,7 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
+import 'package:open_pit/app/data/dummy.dart';
 import 'package:open_pit/app/routes/app_pages.dart';
 
 import '../controllers/home_controller.dart';
@@ -57,7 +58,9 @@ class HomeView extends GetView<HomeController> {
           Padding(
             padding: const EdgeInsets.only(top: 3, left: 15),
             child: Obx(() => Text(
-                  controller.isLogin.value == false ? 'Hello Guest' : 'Hello, ${controller.fireAuthC.user!.displayName}',
+                  controller.isLogin.value == false
+                      ? 'Hello Guest'
+                      : 'Hello, ${controller.fireAuthC.user!.displayName}',
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
@@ -109,7 +112,7 @@ class HomeView extends GetView<HomeController> {
                 topRight: Radius.circular(10),
               ),
               child: Image.asset(
-                'images/image ${index + 8}.png',
+                '${data[index]['image']}',
               ),
             ),
           ),
@@ -119,7 +122,7 @@ class HomeView extends GetView<HomeController> {
           Padding(
             padding: const EdgeInsets.only(left: 14),
             child: Text(
-              'YOASOBI: Asia Tour',
+              '${data[index]['title']}',
               style: TextStyle(
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
@@ -128,7 +131,7 @@ class HomeView extends GetView<HomeController> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 14, top: 3),
-            child: Text('March 2, 2024',
+            child: Text('${data[index]['date']}',
                 style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
@@ -156,7 +159,7 @@ class HomeView extends GetView<HomeController> {
               alignment: Alignment.bottomRight,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.toNamed(Routes.DETAIL);
+                  controller.clickButton(index);
                 },
                 child: Text('Book',
                     style: TextStyle(

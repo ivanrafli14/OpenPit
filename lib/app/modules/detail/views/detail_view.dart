@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:get/get.dart';
+import 'package:open_pit/app/data/dummy.dart';
 import 'package:open_pit/app/routes/app_pages.dart';
 
 import '../controllers/detail_controller.dart';
@@ -40,7 +41,7 @@ class DetailView extends GetView<DetailController> {
                 children: [
                   // Images at the top
                   Image.asset(
-                    'images/image 8.png', // Replace with your image path
+                    '${data[controller.idx]['image']}', // Replace with your image path
                     width: 169.0,
                     height: 168.0,
                     fit: BoxFit.cover,
@@ -50,7 +51,7 @@ class DetailView extends GetView<DetailController> {
                         10.0, // Adjust the height to add space between the image and text
                   ),
                   Text(
-                    'Ed Sheeran: +-÷× Tour',
+                    '${data[controller.idx]['title']}',
                     style: GoogleFonts.inter(
                         fontSize: 16.0,
                         color: Color.fromRGBO(57, 57, 57, 1.0),
@@ -58,7 +59,7 @@ class DetailView extends GetView<DetailController> {
                   ),
                   SizedBox(height: 4.0),
                   Text(
-                    'March 2, 2024',
+                    '${data[controller.idx]['date']}',
                     style: GoogleFonts.inter(
                         fontSize: 12.0, color: Color.fromRGBO(57, 57, 57, 1.0)),
                   ),

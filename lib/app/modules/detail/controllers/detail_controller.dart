@@ -1,16 +1,20 @@
 import 'package:get/get.dart';
+import 'package:open_pit/app/modules/home/controllers/home_controller.dart';
 
 class DetailController extends GetxController {
   //TODO: Implement DetailController
 
+  HomeController homeC = Get.find<HomeController>();
   final count = 0.obs;
   final basic = 0.obs;
   final enjoy = 0.obs;
   final happy_meal = 0.obs;
+  int idx = 0;
 
   @override
   void onInit() {
     super.onInit();
+    idx = homeC.index;
   }
 
   @override

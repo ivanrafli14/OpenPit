@@ -9,12 +9,20 @@ Open Pit is a mobile application presented by Medhal Team GDSC UB. This mobile a
 - Fatkhur Rahman (Hustler)
 
 ## Screenshot
-<img src="./screenshot/Screenshot_1705066573.png" width="200"/>
-<img src="./screenshot/Screenshot_1705064490.png" width="200"/>
-<img src="./screenshot/Screenshot_1705066584.png" width="200"/>
-<img src="./screenshot/Screenshot_1705064539.png" width="200"/>
-<img src="./screenshot/Screenshot_1705064635.png" width="200"/>
-<img src="./screenshot/Screenshot_1705064626.png" width="200"/>
-
-<img src="./screenshot/Screenshot_1705064652.png" width="200"/>
-<img src="./screenshot/Screenshot_1705064657.png" width="200"/>
+<p align="center" width="100%">
+<img src="./screenshot/splash.png" width="200"/>
+<img src="./screenshot/login.png" width="200"/>
+<img src="./screenshot/register.png" width="200"/>
+<img src="./screenshot/home.png" width="200"/>
+<img src="./screenshot/detail.png" width="200"/>
+<img src="./screenshot/detail_order.png" width="200"/>
+<img src="./screenshot/pickup_loc.png" width="200"/>
+<img src="./screenshot/search.png" width="200"/>
+<img src="./screenshot/route.png" width="200"/>
+<img src="./screenshot/summary.png" width="200"/>
+<img src="./screenshot/midtrans.png" width="200"/>
+<img src="./screenshot/plans.png" width="200"/>
+<img src="./screenshot/social.png" width="200"/>
+<img src="./screenshot/chat.png" width="200"/>
+<img src="./screenshot/profile.png" width="200"/>
+</p>

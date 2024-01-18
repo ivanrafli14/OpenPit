@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:open_pit/app/data/dummy.dart';
 import 'package:open_pit/app/modules/Pickup/controllers/pickup_controller.dart';
+import 'package:open_pit/app/modules/home/controllers/home_controller.dart';
 import 'package:open_pit/app/modules/path_concert/controllers/path_concert_controller.dart';
 import 'package:open_pit/app/routes/app_pages.dart';
 
@@ -10,6 +12,7 @@ import '../controllers/summary_controller.dart';
 class SummaryView extends GetView<SummaryController> {
   SummaryView({Key? key}) : super(key: key);
   PathConcertController pathC = Get.find<PathConcertController>();
+  HomeController homeC = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class SummaryView extends GetView<SummaryController> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
                   child: Image.asset(
-                    'images/image 8.png',
+                    '${data[homeC.index]['image']}',
                     height: 144.0,
                     width: 144.0,
                   ),
@@ -44,14 +47,14 @@ class SummaryView extends GetView<SummaryController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Ed Sheeran: +-÷× Tour',
+                      '${data[homeC.index]['title']}',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                     ),
                     SizedBox(
                       height: 8,
                     ),
-                    Text('March 2, 2024'),
+                    Text('${data[homeC.index]['date']}'),
                     SizedBox(
                       height: 8,
                     ),
@@ -116,7 +119,8 @@ class SummaryView extends GetView<SummaryController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('IDR. ${controller.pathC.price} x ${controller.detailC.basic} person'),
+                        Text(
+                            'IDR. ${controller.pathC.price} x ${controller.detailC.basic} person'),
                         SizedBox(
                           height: 3,
                         ),
@@ -135,7 +139,8 @@ class SummaryView extends GetView<SummaryController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('IDR. ${controller.pathC.price} x ${controller.detailC.enjoy} person'),
+                        Text(
+                            'IDR. ${controller.pathC.price} x ${controller.detailC.enjoy} person'),
                         SizedBox(
                           height: 3,
                         ),
@@ -154,7 +159,8 @@ class SummaryView extends GetView<SummaryController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('IDR. 50000 X ${controller.detailC.happy_meal.value} Person'),
+                        Text(
+                            'IDR. 50000 X ${controller.detailC.happy_meal.value} Person'),
                         SizedBox(
                           height: 3,
                         ),
@@ -163,8 +169,6 @@ class SummaryView extends GetView<SummaryController> {
                   trailing: Image.asset('images/Group 2.png'),
                 ));
               }
-
-              
 
               return Column(
                 children: widgets,
@@ -175,7 +179,6 @@ class SummaryView extends GetView<SummaryController> {
               child: Text('Total IDR. ${controller.totalOrders}',
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
             ),
-            
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -189,7 +192,8 @@ class SummaryView extends GetView<SummaryController> {
                       backgroundColor: Color(0xff1A2ABC),
                     ),
                     onPressed: () async {
-                      String snapToken = await controller.getSnapToken(controller.totalOrders);
+                      String snapToken =
+                          await controller.getSnapToken(controller.totalOrders);
                       controller.midtrans?.startPaymentUiFlow(
                         token: snapToken,
                       );

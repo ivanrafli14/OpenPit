@@ -18,7 +18,7 @@ class SearchPlaceView extends GetView<SearchPlaceController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('SearchPlaceView'),
+          title: const Text('Search a Place'),
           centerTitle: true,
         ),
         body: Column(
